@@ -56,16 +56,16 @@
             <footer id="footer">
                 <div class="footer-column">
                     <div class="recent column">
-                        <div class="inner"><h3>Recent Posts</h3><?php echo recent_posts() ?></div>
+                        <div class="inner"><h3><?php echo i18n("Recent_posts");?></h3><?php echo recent_posts() ?></div>
                     </div>
                     <div class="archive column">
-                        <div class="inner"><h3>Archive</h3><?php echo archive_list() ?></div>
+                        <div class="inner"><h3><?php echo i18n("Archives");?></h3><?php echo archive_list() ?></div>
                     </div>
                     <div class="tagcloud column">
-                        <div class="inner"><h3>Tags</h3><?php echo tag_cloud() ?></div>
+                        <div class="inner"><h3><?php echo i18n("Tags");?></h3><?php echo tag_cloud() ?></div>
                     </div>
                     <div class="social column">
-                        <div class="inner"><h3>Follow</h3><?php echo social() ?></div>
+                        <div class="inner"><h3><?php echo i18n("Follow");?></h3><?php echo social() ?></div>
                     </div>
                 </div>
                 <div class="copyright"><?php echo copyright() ?></div>
