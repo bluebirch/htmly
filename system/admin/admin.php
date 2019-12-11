@@ -469,7 +469,7 @@ function edit_category($title, $url, $content, $oldfile, $destination = null, $d
     } else {
         $post_description = '';
     }
-    $post_content = '<!--t ' . $post_title . ' t-->' . $post_description . "\n\n" . $content;
+    $post_content = '<!--t ' . $post_title . ' t-->' . $post_description . "\n\n" . _h($content);
     if (!empty($post_title) && !empty($post_url) && !empty($post_content)) {
     
         if (get_magic_quotes_gpc()) {
@@ -499,7 +499,7 @@ function edit_category($title, $url, $content, $oldfile, $destination = null, $d
 function edit_profile($title, $content, $user)
 {
     $user_title = safe_html($title);
-    $user_content = '<!--t ' . $user_title . ' t-->' . "\n\n" . $content;
+    $user_content = '<!--t ' . $user_title . ' t-->' . "\n\n" . _h($content);
 
     if (!empty($user_title) && !empty($user_content)) {
         if (get_magic_quotes_gpc()) {
