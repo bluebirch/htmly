@@ -12,6 +12,8 @@ if ( config('language') === "de" ) {
   i18n('source', 'lang/lang-sv.ini'); // Load the Swedish language file
   $date_format = '%d %B %Y';  // Date format Swedish style
   setlocale(LC_TIME, 'sv_SE', 'sv_SE.utf8', "Swedish");  // Change time format to Swedish
+  $smartypants_parser->smart_doublequote_open = '&#8221;';
+  $smartypants_parser->smart_singlequote_open = '&#8217;';
 } else {  // Default: English ("en")
   i18n('source', 'lang/lang-en.ini'); // Load the English language file
   $date_format = '%B %d, %Y';  // Date format English style
