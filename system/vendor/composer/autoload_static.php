@@ -16,6 +16,10 @@ class ComposerStaticInitd88c6c25320034df85dd42f1462fbda7
     );
 
     public static $prefixLengthsPsr4 = array (
+        'M' => 
+        array (
+            'Michelf\\' => 8,
+        ),
         'K' => 
         array (
             'Kanti\\' => 6,
@@ -23,6 +27,10 @@ class ComposerStaticInitd88c6c25320034df85dd42f1462fbda7
     );
 
     public static $prefixDirsPsr4 = array (
+        'Michelf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/michelf/php-markdown/Michelf',
+        ),
         'Kanti\\' => 
         array (
             0 => __DIR__ . '/..' . '/kanti/hub-updater/src',
@@ -48,7 +56,7 @@ class ComposerStaticInitd88c6c25320034df85dd42f1462fbda7
         array (
             'Michelf' => 
             array (
-                0 => __DIR__ . '/..' . '/michelf/php-markdown',
+                0 => __DIR__ . '/..' . '/michelf/php-smartypants',
             ),
         ),
     );
@@ -60,6 +68,8 @@ class ComposerStaticInitd88c6c25320034df85dd42f1462fbda7
         'Michelf\\Markdown' => __DIR__ . '/..' . '/michelf/php-markdown/Michelf/Markdown.php',
         'Michelf\\MarkdownExtra' => __DIR__ . '/..' . '/michelf/php-markdown/Michelf/MarkdownExtra.php',
         'Michelf\\MarkdownInterface' => __DIR__ . '/..' . '/michelf/php-markdown/Michelf/MarkdownInterface.php',
+        'Michelf\\SmartyPants' => __DIR__ . '/..' . '/michelf/php-smartypants/Michelf/SmartyPants.php',
+        'Michelf\\SmartyPantsTypographer' => __DIR__ . '/..' . '/michelf/php-smartypants/Michelf/SmartyPantsTypographer.php',
         'Suin\\RSSWriter\\Channel' => __DIR__ . '/..' . '/suin/php-rss-writer/src/Suin/RSSWriter/Channel.php',
         'Suin\\RSSWriter\\ChannelInterface' => __DIR__ . '/..' . '/suin/php-rss-writer/src/Suin/RSSWriter/ChannelInterface.php',
         'Suin\\RSSWriter\\Feed' => __DIR__ . '/..' . '/suin/php-rss-writer/src/Suin/RSSWriter/Feed.php',
