@@ -6,17 +6,17 @@ config('source', $config_file);
 // Settings for the language
 if ( config('language') === "de" ) {
   i18n('source', 'lang/lang-de.ini'); // Load the German language file
-  $date_format = '%d. %B %Y';  // Date format German style
+  $date_format = '%e. %B %Y';  // Date format German style
   setlocale(LC_TIME, 'de_DE', 'de_DE.utf8', "German");  // Change time format to German
 } elseif ( config('language') === "sv" ) {
   i18n('source', 'lang/lang-sv.ini'); // Load the Swedish language file
-  $date_format = '%d %B %Y';  // Date format Swedish style
+  $date_format = '%e %B %Y';  // Date format Swedish style
   setlocale(LC_TIME, 'sv_SE', 'sv_SE.utf8', "Swedish");  // Change time format to Swedish
   $smartypants_parser->smart_doublequote_open = '&#8221;';
   $smartypants_parser->smart_singlequote_open = '&#8217;';
 } else {  // Default: English ("en")
   i18n('source', 'lang/lang-en.ini'); // Load the English language file
-  $date_format = '%B %d, %Y';  // Date format English style
+  $date_format = '%B %e, %Y';  // Date format English style
   setlocale(LC_TIME, 'en_US', 'en_US.utf8', "English"); // Change time format to English
 }
 
