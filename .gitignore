@@ -1,2 +1,4 @@
-cache
-content
+/cache/
+!/cache/installedVersion.json
+/content/
+!/content/.gitkeep
