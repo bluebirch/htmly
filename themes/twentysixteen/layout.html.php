@@ -87,7 +87,7 @@
                     
                     <?php if (config('views.counter') === 'true') :?>
                     <section id="popular-posts" class="widget widget_popular_entries">        
-                        <h2 class="widget-title">Popular Posts</h2>
+                        <h2 class="widget-title"><?php echo i18n("Popular_posts");?></h2>
                         <?php echo popular_posts();?>
                     </section>
                     <?php endif;?>
