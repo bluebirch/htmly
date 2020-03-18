@@ -29,8 +29,8 @@
                 <h2 class="title-index" itemprop="name"><a href="<?php echo $p->url ?>"><?php echo $p->title ?></a></h2>
             <?php } ?>
             <div class="date">
-                <span itemprop="datePublished"><?php echo date('d F Y', $p->date) ?></span> - Posted in
-                <span itemprop="articleSection"><?php echo $p->category ?></span> by
+                <span itemprop="datePublished"><?php global $date_format; echo strftime($date_format, $p->date) ?></span> - <?php echo i18n("Posted_in");?>
+                <span itemprop="articleSection"><?php echo $p->category ?></span> <?php echo i18n("by");?>
                 <span itemprop="author"><a href="<?php echo $p->authorUrl ?>"><?php echo $p->author ?></a></span>
                 <?php if (disqus_count()) { ?> - 
                     <span><a href="<?php echo $p->url ?>#disqus_thread">Comments</a></span>
@@ -61,7 +61,7 @@
             <div class="teaser-body" itemprop="articleBody">
                 <?php echo get_thumbnail($p->body) ?>
                 <?php echo get_teaser($p->body, $p->url) ?>
-                <?php if (config('teaser.type') === 'trimmed'):?><a href="<?php echo $p->url;?>">Read more</a><?php endif;?>
+                <?php if (config('teaser.type') === 'trimmed'):?><a href="<?php echo $p->url;?>"><?php echo i18n('Read_more'); ?></a><?php endif;?>
             </div>
         </div>
     </div>

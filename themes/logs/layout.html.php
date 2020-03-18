@@ -46,25 +46,25 @@
             </section>
             <aside id="sidebar">
                 <div class="about">
-                    <h3>About</h3>
+                    <h3><?php echo i18n('About'); ?></h3>
                     <p><?php echo blog_description() ?></p>
                 </div>
                 <div class="social">
-                    <h3>Follow</h3>
+                    <h3><?php echo i18n('Follow'); ?></h3>
                     <?php echo social() ?>
                 </div>
                 <div class="recent">
-                    <h3>Recent Posts</h3>
+                    <h3><?php echo i18n('Recent_posts'); ?></h3>
                     <?php echo recent_posts() ?>
                 </div>
                 <?php if(config('views.counter') === 'true') :?>
                 <div class="popular">
-                    <h3>Popular Posts</h3>
+                    <h3><?php echo i18n('Popular_posts'); ?></h3>
                     <?php echo popular_posts() ?>
                 </div>
                 <?php endif;?>
                 <div class="archive">
-                    <h3>Archive</h3>
+                    <h3><?php echo i18n('Archive'); ?></h3>
                     <?php echo archive_list() ?>
                 </div>
                 <?php if (disqus()): ?>
@@ -79,7 +79,7 @@
                     <?php echo category_list() ?>
                 </div>
                 <div class="tagcloud">
-                    <h3>Tags</h3>
+                    <h3><?php echo i18n('Tags'); ?></h3>
                     <?php echo tag_cloud() ?>
                 </div>
             </aside>

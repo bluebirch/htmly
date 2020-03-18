@@ -1544,7 +1544,7 @@ function has_pagination($total, $perpage, $page = 1)
         $total = count(get_post_unsorted());
     }
     $totalPage = ceil($total / $perpage);
-    $number = 'Page '. $page . ' of ' . $totalPage;
+    $number = i18n('Page') . ' ' . $page . ' ' . i18n('of') . ' ' . $totalPage;
     $pager = get_pagination($page, $total, $perpage, 2);
     return array(
         'prev' => $page > 1,
@@ -1581,9 +1581,9 @@ function get_pagination($page = 1, $totalitems, $perpage = 10, $adjacents = 1, $
 
         //previous button
         if ($page > 1) 
-            $pagination .= '<li><a href="'. $pagestring . $prev .'">« Prev</a></li>';
+            $pagination .= '<li><a href="'. $pagestring . $prev .'">« ' . i18n('Prev') . '</a></li>';
         else
-            $pagination .= '<li class="disabled"><span>« Prev</span></li>';    
+            $pagination .= '<li class="disabled"><span>« ' . i18n('Prev') . '</span></li>';    
         
         //pages    
         if ($lastpage < 7 + ($adjacents * 2))    //not enough pages to bother breaking it up
@@ -1647,9 +1647,9 @@ function get_pagination($page = 1, $totalitems, $perpage = 10, $adjacents = 1, $
         
         //next button
         if ($page < $counter - 1) 
-            $pagination .= '<li><a href="'. $pagestring . $next .'">Next »</a></li>';
+            $pagination .= '<li><a href="'. $pagestring . $next .'">' . i18n('Next') . ' »</a></li>';
         else
-            $pagination .= '<li class="disabled"><span>Next »</span></li>';
+            $pagination .= '<li class="disabled"><span>' . i18n('Next') . ' »</span></li>';
         $pagination .= '</ul>';
     }
     
