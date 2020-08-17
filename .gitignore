@@ -4,3 +4,6 @@
 /config/users/*.ini
 /.buildpath
 /.project
+/build.xml
+/build/
+/cache.properties
