@@ -2,3 +2,8 @@
 /content/*
 /config/config.ini
 /config/users/*.ini
+/.buildpath
+/.project
+/build.xml
+/build/
+/cache.properties
