@@ -153,16 +153,16 @@ post('/login', function () {
     } else {
         $message['error'] = '';
         if (empty($user)) {
-            $message['error'] .= '<li>User field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">User field is required.</li>';
         }
         if (empty($pass)) {
-            $message['error'] .= '<li>Password field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Password field is required.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
         if (!$captcha) {
-            $message['error'] .= '<li>reCaptcha not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">reCaptcha not correct.</li>';
         }
 
         config('views.root', 'system/admin/views');
@@ -298,13 +298,13 @@ post('/edit/profile', function () {
     } else {
         $message['error'] = '';
         if (empty($title)) {
-            $message['error'] .= '<li>Title field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
         }
         if (empty($content)) {
-            $message['error'] .= '<li>Content field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
         config('views.root', 'system/admin/views');
 
@@ -357,13 +357,13 @@ post('/edit/frontpage', function () {
     } else {
         $message['error'] = '';
         if (empty($title)) {
-            $message['error'] .= '<li>Title field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
         }
         if (empty($content)) {
-            $message['error'] .= '<li>Content field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
         config('views.root', 'system/admin/views');
 
@@ -463,16 +463,16 @@ post('/add/content', function () {
         } else {
             $message['error'] = '';
             if (empty($title)) {
-                $message['error'] .= '<li>Title field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
             }
             if (empty($tag)) {
-                $message['error'] .= '<li>Tag field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Tag field is required.</li>';
             }
             if (empty($content)) {
-                $message['error'] .= '<li>Content field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
             }
             if (!$proper) {
-                $message['error'] .= '<li>CSRF Token not correct.</li>';
+                $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
             }
             config('views.root', 'system/admin/views');
             render('add-content', array(
@@ -503,19 +503,19 @@ post('/add/content', function () {
         } else {
             $message['error'] = '';
             if (empty($title)) {
-                $message['error'] .= '<li>Title field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
             }
             if (empty($tag)) {
-                $message['error'] .= '<li>Tag field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Tag field is required.</li>';
             }
             if (empty($content)) {
-                $message['error'] .= '<li>Content field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
             }
             if (empty($image)) {
-                $message['error'] .= '<li>Image field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Image field is required.</li>';
             }
             if (!$proper) {
-                $message['error'] .= '<li>CSRF Token not correct.</li>';
+                $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
             }
             config('views.root', 'system/admin/views');
             render('add-content', array(
@@ -547,19 +547,19 @@ post('/add/content', function () {
         } else {
             $message['error'] = '';
             if (empty($title)) {
-                $message['error'] .= '<li>Title field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
             }
             if (empty($tag)) {
-                $message['error'] .= '<li>Tag field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Tag field is required.</li>';
             }
             if (empty($content)) {
-                $message['error'] .= '<li>Content field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
             }
             if (empty($video)) {
-                $message['error'] .= '<li>Video field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Video field is required.</li>';
             }
             if (!$proper) {
-                $message['error'] .= '<li>CSRF Token not correct.</li>';
+                $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
             }
             config('views.root', 'system/admin/views');
             render('add-content', array(
@@ -591,19 +591,19 @@ post('/add/content', function () {
         } else {
             $message['error'] = '';
             if (empty($title)) {
-                $message['error'] .= '<li>Title field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
             }
             if (empty($tag)) {
-                $message['error'] .= '<li>Tag field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Tag field is required.</li>';
             }
             if (empty($content)) {
-                $message['error'] .= '<li>Content field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
             }
             if (empty($audio)) {
-                $message['error'] .= '<li>Audio field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Audio field is required.</li>';
             }
             if (!$proper) {
-                $message['error'] .= '<li>CSRF Token not correct.</li>';
+                $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
             }
             config('views.root', 'system/admin/views');
             render('add-content', array(
@@ -635,19 +635,19 @@ post('/add/content', function () {
         } else {
             $message['error'] = '';
             if (empty($title)) {
-                $message['error'] .= '<li>Title field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
             }
             if (empty($tag)) {
-                $message['error'] .= '<li>Tag field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Tag field is required.</li>';
             }
             if (empty($content)) {
-                $message['error'] .= '<li>Content field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
             }
             if (empty($quote)) {
-                $message['error'] .= '<li>Quote field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Quote field is required.</li>';
             }
             if (!$proper) {
-                $message['error'] .= '<li>CSRF Token not correct.</li>';
+                $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
             }
             config('views.root', 'system/admin/views');
             render('add-content', array(
@@ -679,19 +679,19 @@ post('/add/content', function () {
         } else {
             $message['error'] = '';
             if (empty($title)) {
-                $message['error'] .= '<li>Title field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
             }
             if (empty($tag)) {
-                $message['error'] .= '<li>Tag field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Tag field is required.</li>';
             }
             if (empty($content)) {
-                $message['error'] .= '<li>Content field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
             }
             if (empty($link)) {
-                $message['error'] .= '<li>Link field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Link field is required.</li>';
             }
             if (!$proper) {
-                $message['error'] .= '<li>CSRF Token not correct.</li>';
+                $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
             }
             config('views.root', 'system/admin/views');
             render('add-content', array(
@@ -755,13 +755,13 @@ post('/add/page', function () {
     } else {
         $message['error'] = '';
         if (empty($title)) {
-            $message['error'] .= '<li>Title field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
         }
         if (empty($content)) {
-            $message['error'] .= '<li>Content field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
         config('views.root', 'system/admin/views');
         render('add-page', array(
@@ -821,13 +821,13 @@ post('/add/category', function () {
     } else {
         $message['error'] = '';
         if (empty($title)) {
-            $message['error'] .= '<li>Title field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
         }
         if (empty($content)) {
-            $message['error'] .= '<li>Content field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
         config('views.root', 'system/admin/views');
         render('add-page', array(
@@ -873,6 +873,7 @@ get('/admin/posts', function () {
                     'description' => strip_tags(blog_description()),
                     'canonical' => site_url(),
                     'bodyclass' => 'no-posts',
+                    'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; All posts list'
                 ));
 
                 die;
@@ -896,7 +897,7 @@ get('/admin/posts', function () {
                 'bodyclass' => 'all-posts',
                 'type' => 'is_admin-posts',
                 'is_admin' => true,
-                'breadcrumb' => '',
+                'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; All posts list',
                 'pagination' => has_pagination($total, $perpage, $page)
             ));
         } else {
@@ -943,6 +944,7 @@ get('/admin/popular', function () {
                     'canonical' => site_url(),
                     'is_admin' => true,
                     'bodyclass' => 'admin-popular',
+					'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; Popular posts'
                 ));
 
                 die;
@@ -965,7 +967,7 @@ get('/admin/popular', function () {
                 'posts' => $posts,
                 'is_admin' => true,
                 'bodyclass' => 'admin-popular',
-                'breadcrumb' => '',
+                'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; Popular posts',
                 'pagination' => has_pagination($total, $perpage, $page)
             ));
         } else {
@@ -1064,7 +1066,7 @@ get('/admin/draft', function () {
 
         $posts = get_draft($name, $page, $perpage);
 
-        $total = get_count($name, 'dirname');
+        $total = get_draftcount($name);
 
         $author = get_author($name);
 
@@ -1134,6 +1136,26 @@ get('/admin/content', function () {
     die;
 });
 
+// Show admin/pages
+get('/admin/pages', function () {
+    if (login()) {
+        config('views.root', 'system/admin/views');
+        render('static-pages', array(
+            'title' => i18n('Static_pages') . ' - ' . blog_title(),
+            'description' => strip_tags(blog_description()),
+            'canonical' => site_url(),
+            'type' => 'is_admin-pages',
+            'is_admin' => true,
+            'bodyclass' => 'admin-pages',
+            'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; ' . i18n('Static_pages')
+        ));
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
 // Show import page
 get('/admin/import', function () {
     if (login()) {
@@ -1184,10 +1206,10 @@ post('/admin/import', function () {
     } else {
         $message['error'] = '';
         if (empty($url)) {
-            $message['error'] .= '<li>You need to specify the feed url.</li>';
+            $message['error'] .= '<li class="alert alert-danger">You need to specify the feed url.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
 
         config('views.root', 'system/admin/views');
@@ -1265,6 +1287,346 @@ post('/admin/config', function () {
         }
         save_config($new_config, $new_Keys);
         $login = site_url() . 'admin/config';
+        header("location: $login");
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
+// Show Config page
+get('/admin/config/custom', function () {
+
+    $user = $_SESSION[config("site.url")]['user'];
+    $role = user('role', $user);
+
+    if (login()) {
+        config('views.root', 'system/admin/views');
+        if ($role === 'admin') {
+            render('config-custom', array(
+                'title' => 'Config - ' . blog_title(),
+                'description' => strip_tags(blog_description()),
+                'canonical' => site_url(),
+                'type' => 'is_admin-config',
+                'is_admin' => true,
+                'bodyclass' => 'admin-config',
+                'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; Config'
+            ));
+        } else {
+            render('denied', array(
+                'title' => 'Config page - ' . blog_title(),
+                'description' => strip_tags(blog_description()),
+                'canonical' => site_url(),
+                'type' => 'is_admin-config',
+                'is_admin' => true,
+                'bodyclass' => 'denied',
+                'breadcrumb' => '',
+            ));
+        }
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
+// Submitted Config page data
+post('/admin/config/custom', function () {
+	
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+
+    $proper = is_csrf_proper(from($_REQUEST, 'csrf_token'));
+    if (login() && $proper) {
+        $newKey = from($_REQUEST, 'newKey');
+        $newValue = from($_REQUEST, 'newValue');
+
+        $new_config = array();
+        $new_Keys = array();
+        if (!empty($newKey)) {
+            $new_Keys[$newKey] = $newValue;
+        }
+        foreach ($_POST as $name => $value) {
+            if (substr($name, 0, 8) == "-config-") {
+                $name = str_replace("_", ".", substr($name, 8));
+                $new_config[$name] = $value;
+            }
+        }
+        save_config($new_config, $new_Keys);
+        $login = site_url() . 'admin/config/custom';
+        header("location: $login");
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
+// Show Config page
+get('/admin/config/reading', function () {
+
+    $user = $_SESSION[config("site.url")]['user'];
+    $role = user('role', $user);
+
+    if (login()) {
+        config('views.root', 'system/admin/views');
+        if ($role === 'admin') {
+            render('config-reading', array(
+                'title' => 'Config - ' . blog_title(),
+                'description' => strip_tags(blog_description()),
+                'canonical' => site_url(),
+                'type' => 'is_admin-config',
+                'is_admin' => true,
+                'bodyclass' => 'admin-config',
+                'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; Config'
+            ));
+        } else {
+            render('denied', array(
+                'title' => 'Config page - ' . blog_title(),
+                'description' => strip_tags(blog_description()),
+                'canonical' => site_url(),
+                'type' => 'is_admin-config',
+                'is_admin' => true,
+                'bodyclass' => 'denied',
+                'breadcrumb' => '',
+            ));
+        }
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
+// Submitted Config page data
+post('/admin/config/reading', function () {
+	
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+
+    $proper = is_csrf_proper(from($_REQUEST, 'csrf_token'));
+    if (login() && $proper) {
+        $newKey = from($_REQUEST, 'newKey');
+        $newValue = from($_REQUEST, 'newValue');
+
+        $new_config = array();
+        $new_Keys = array();
+        if (!empty($newKey)) {
+            $new_Keys[$newKey] = $newValue;
+        }
+        foreach ($_POST as $name => $value) {
+            if (substr($name, 0, 8) == "-config-") {
+                $name = str_replace("_", ".", substr($name, 8));
+                $new_config[$name] = $value;
+            }
+        }
+        save_config($new_config, $new_Keys);
+        $login = site_url() . 'admin/config/reading';
+        header("location: $login");
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
+// Show Config page
+get('/admin/config/widget', function () {
+
+    $user = $_SESSION[config("site.url")]['user'];
+    $role = user('role', $user);
+
+    if (login()) {
+        config('views.root', 'system/admin/views');
+        if ($role === 'admin') {
+            render('config-widget', array(
+                'title' => 'Config - ' . blog_title(),
+                'description' => strip_tags(blog_description()),
+                'canonical' => site_url(),
+                'type' => 'is_admin-config',
+                'is_admin' => true,
+                'bodyclass' => 'admin-config',
+                'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; Config'
+            ));
+        } else {
+            render('denied', array(
+                'title' => 'Config page - ' . blog_title(),
+                'description' => strip_tags(blog_description()),
+                'canonical' => site_url(),
+                'type' => 'is_admin-config',
+                'is_admin' => true,
+                'bodyclass' => 'denied',
+                'breadcrumb' => '',
+            ));
+        }
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
+// Submitted Config page data
+post('/admin/config/widget', function () {
+	
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+
+    $proper = is_csrf_proper(from($_REQUEST, 'csrf_token'));
+    if (login() && $proper) {
+        $newKey = from($_REQUEST, 'newKey');
+        $newValue = from($_REQUEST, 'newValue');
+
+        $new_config = array();
+        $new_Keys = array();
+        if (!empty($newKey)) {
+            $new_Keys[$newKey] = $newValue;
+        }
+        foreach ($_POST as $name => $value) {
+            if (substr($name, 0, 8) == "-config-") {
+                $name = str_replace("_", ".", substr($name, 8));
+                $new_config[$name] = $value;
+            }
+        }
+        save_config($new_config, $new_Keys);
+        $login = site_url() . 'admin/config/widget';
+        header("location: $login");
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
+// Show Config page
+get('/admin/config/metatags', function () {
+
+    $user = $_SESSION[config("site.url")]['user'];
+    $role = user('role', $user);
+
+    if (login()) {
+        config('views.root', 'system/admin/views');
+        if ($role === 'admin') {
+            render('config-metatags', array(
+                'title' => 'Config - ' . blog_title(),
+                'description' => strip_tags(blog_description()),
+                'canonical' => site_url(),
+                'type' => 'is_admin-config',
+                'is_admin' => true,
+                'bodyclass' => 'admin-config',
+                'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; Config'
+            ));
+        } else {
+            render('denied', array(
+                'title' => 'Config page - ' . blog_title(),
+                'description' => strip_tags(blog_description()),
+                'canonical' => site_url(),
+                'type' => 'is_admin-config',
+                'is_admin' => true,
+                'bodyclass' => 'denied',
+                'breadcrumb' => '',
+            ));
+        }
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
+// Submitted Config page data
+post('/admin/config/metatags', function () {
+	
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+
+    $proper = is_csrf_proper(from($_REQUEST, 'csrf_token'));
+    if (login() && $proper) {
+        $newKey = from($_REQUEST, 'newKey');
+        $newValue = from($_REQUEST, 'newValue');
+
+        $new_config = array();
+        $new_Keys = array();
+        if (!empty($newKey)) {
+            $new_Keys[$newKey] = $newValue;
+        }
+        foreach ($_POST as $name => $value) {
+            if (substr($name, 0, 8) == "-config-") {
+                $name = str_replace("_", ".", substr($name, 8));
+                $new_config[$name] = $value;
+            }
+        }
+        save_config($new_config, $new_Keys);
+        $login = site_url() . 'admin/config/metatags';
+        header("location: $login");
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
+// Show Config page
+get('/admin/config/performance', function () {
+
+    $user = $_SESSION[config("site.url")]['user'];
+    $role = user('role', $user);
+
+    if (login()) {
+        config('views.root', 'system/admin/views');
+        if ($role === 'admin') {
+            render('config-performance', array(
+                'title' => 'Config - ' . blog_title(),
+                'description' => strip_tags(blog_description()),
+                'canonical' => site_url(),
+                'type' => 'is_admin-config',
+                'is_admin' => true,
+                'bodyclass' => 'admin-config',
+                'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; Config'
+            ));
+        } else {
+            render('denied', array(
+                'title' => 'Config page - ' . blog_title(),
+                'description' => strip_tags(blog_description()),
+                'canonical' => site_url(),
+                'type' => 'is_admin-config',
+                'is_admin' => true,
+                'bodyclass' => 'denied',
+                'breadcrumb' => '',
+            ));
+        }
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
+// Submitted Config page data
+post('/admin/config/performance', function () {
+	
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+
+    $proper = is_csrf_proper(from($_REQUEST, 'csrf_token'));
+    if (login() && $proper) {
+        $newKey = from($_REQUEST, 'newKey');
+        $newValue = from($_REQUEST, 'newValue');
+
+        $new_config = array();
+        $new_Keys = array();
+        if (!empty($newKey)) {
+            $new_Keys[$newKey] = $newValue;
+        }
+        foreach ($_POST as $name => $value) {
+            if (substr($name, 0, 8) == "-config-") {
+                $name = str_replace("_", ".", substr($name, 8));
+                $new_config[$name] = $value;
+            }
+        }
+        save_config($new_config, $new_Keys);
+        $login = site_url() . 'admin/config/performance';
         header("location: $login");
     } else {
         $login = site_url() . 'login';
@@ -1379,6 +1741,35 @@ get('/admin/update/now/:csrf', function ($CSRF) {
     }
 });
 
+// Show Menu builder
+get('/admin/menu', function () {
+    if (login()) {
+        config('views.root', 'system/admin/views');
+        render('menu', array(
+            'title' => 'Menu builder - ' . blog_title(),
+            'description' => strip_tags(blog_description()),
+            'canonical' => site_url(),
+            'type' => 'is_admin-menu',
+            'is_admin' => true,
+            'bodyclass' => 'admin-menu',
+            'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; Menu builder'
+        ));
+    } else {
+        $login = site_url() . 'login';
+        header("location: $login");
+    }
+    die;
+});
+
+post('/admin/menu', function () {
+
+    if (login()) {
+        $json = from($_REQUEST, 'json');
+		file_put_contents('content/data/menu.json', json_encode($json, JSON_UNESCAPED_UNICODE));
+    }
+});
+
+
 // Show category page
 get('/admin/categories', function () {
     if (login()) {
@@ -1397,6 +1788,67 @@ get('/admin/categories', function () {
         header("location: $login");
     }
     die;
+});
+
+// Show the category page
+get('/admin/categories/:category', function ($category) {
+
+    $user = $_SESSION[config("site.url")]['user'];
+    $role = user('role', $user);
+    if (login()) {
+		
+        config('views.root', 'system/admin/views');
+        if ($role === 'admin') {
+
+			$page = from($_GET, 'page');
+			$page = $page ? (int)$page : 1;
+			$perpage = config('category.perpage');
+			
+			if (empty($perpage)) {
+				$perpage = 10;    
+			}
+
+			$posts = get_category($category, $page, $perpage);
+			
+			$desc = get_category_info($category);
+			
+			if(strtolower($category) !== 'uncategorized') {
+			   $desc = $desc[0];
+			}
+
+			$total = get_categorycount($category);
+
+			if (empty($posts) || $page < 1) {
+				// a non-existing page
+				not_found();
+			}
+			
+			render('category-list', array(
+				'title' => $desc->title . ' - ' . blog_title(),
+				'description' => $desc->description,
+				'canonical' => $desc->url,
+				'page' => $page,
+				'posts' => $posts,
+				'category' => $desc,
+				'bodyclass' => 'in-category category-' . strtolower($category),
+				'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; <a href="' . site_url() . 'admin/categories">Categories</a>  &#187; ' . $desc->title,
+				'pagination' => has_pagination($total, $perpage, $page),
+				'is_category' => true,
+			));
+        } else {
+            render('denied', array(
+                'title' => 'Categories - ' . blog_title(),
+                'description' => strip_tags(blog_description()),
+                'canonical' => site_url(),
+                'type' => 'is_admin-categories',
+                'is_admin' => true,
+                'bodyclass' => 'denied',
+                'breadcrumb' => '',
+            ));
+        }
+    } else {
+        $login = site_url() . 'login';
+    }   
 });
 
 // Show the category page
@@ -1527,13 +1979,13 @@ post('/category/:category/edit', function () {
     } else {
         $message['error'] = '';
         if (empty($title)) {
-            $message['error'] .= '<li>Title field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
         }
         if (empty($content)) {
-            $message['error'] .= '<li>Content field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
         config('views.root', 'system/admin/views');
 
@@ -2057,24 +2509,24 @@ get('/post/:name/edit', function ($name) {
         
         if ($user === $current->author || $role === 'admin') {
             render('edit-content', array(
-                'title' => $type .' - '. blog_title(),
+                'title' => $current->title .' - '. blog_title(),
                 'description' => strip_tags(blog_description()),
                 'canonical' => site_url(),
                 'p' => $current,
                 'type' => $type,
                 'is_admin' => true,
                 'bodyclass' => 'edit-post',
-                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->tagb . ' &#187; ' . $current->title
+                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->categoryb . ' &#187; ' . $current->title
             ));
         } else {
             render('denied', array(
-                'title' => $type .' - '. blog_title(),
+                'title' => $current->title .' - '. blog_title(),
                 'description' => strip_tags(blog_description()),
                 'canonical' => site_url(),
                 'p' => $current,
                 'bodyclass' => 'denied',
                 'is_admin' => true,
-                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->tagb . ' &#187; ' . $current->title
+                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->categoryb . ' &#187; ' . $current->title
             ));
         }
     } else {
@@ -2169,44 +2621,44 @@ post('/post/:name/edit', function () {
     } else {
         $message['error'] = '';
         if (empty($title)) {
-            $message['error'] .= '<li>Title field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
         }
         if (empty($tag)) {
-            $message['error'] .= '<li>Tag field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Tag field is required.</li>';
         }
         if (empty($content)) {
-            $message['error'] .= '<li>Content field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
 
         if (!empty($is_image)) {
             if (empty($image)) {
-                $message['error'] .= '<li>Image field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Image field is required.</li>';
             }
         } elseif (!empty($is_video)) {
             if (empty($video)) {
-                $message['error'] .= '<li>Video field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Video field is required.</li>';
             }
         } elseif (!empty($is_link)) {
             if (empty($link)) {
-                $message['error'] .= '<li>Link field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Link field is required.</li>';
             }
         } elseif (!empty($is_quote)) {
             if (empty($quote)) {
-                $message['error'] .= '<li>Quote field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Quote field is required.</li>';
             }
         } elseif (!empty($is_audio)) {
             if (empty($audio)) {
-                $message['error'] .= '<li>Audio field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Audio field is required.</li>';
             }
         }
         
         config('views.root', 'system/admin/views');
 
         render('edit-content', array(
-            'title' => $type . ' - ' .  blog_title(),
+            'title' => $title . ' - ' .  blog_title(),
             'description' => strip_tags(blog_description()),
             'canonical' => site_url(),
             'error' => '<ul>' . $message['error'] . '</ul>',
@@ -2247,6 +2699,12 @@ get('/post/:name/delete', function ($name) {
         }
 
         $current = $post['current'];
+		
+        if (config('blog.enable') === 'true') {
+            $blog = '<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="' . site_url() . 'blog"><span itemprop="name">Blog</span></a><meta itemprop="position" content="2" /></li> &#187; ';
+        } else {
+            $blog = '';
+        }
 
         if ($user === $current->author || $role === 'admin') {
             render('delete-post', array(
@@ -2256,7 +2714,7 @@ get('/post/:name/delete', function ($name) {
                 'p' => $current,
                 'is_admin' => true,
                 'bodyclass' => 'delete-post',
-                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->tagb . ' &#187; ' . $current->title
+                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->categoryb . ' &#187; ' . $current->title
             ));
         } else {
             render('denied', array(
@@ -2266,7 +2724,7 @@ get('/post/:name/delete', function ($name) {
                 'p' => $current,
                 'is_admin' => true,
                 'bodyclass' => 'delete-post',
-                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->tagb . ' &#187; ' . $current->title
+                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->categoryb . ' &#187; ' . $current->title
             ));
         }
     } else {
@@ -2534,13 +2992,13 @@ post('/:static/add', function ($static) {
     } else {
         $message['error'] = '';
         if (empty($title)) {
-            $message['error'] .= '<li>Title field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
         }
         if (empty($content)) {
-            $message['error'] .= '<li>Content field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
         config('views.root', 'system/admin/views');
         render('add-page', array(
@@ -2614,13 +3072,13 @@ post('/:static/edit', function () {
     } else {
         $message['error'] = '';
         if (empty($title)) {
-            $message['error'] .= '<li>Title field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
         }
         if (empty($content)) {
-            $message['error'] .= '<li>Content field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
         config('views.root', 'system/admin/views');
 
@@ -2811,13 +3269,13 @@ post('/:static/:sub/edit', function ($static, $sub) {
     } else {
         $message['error'] = '';
         if (empty($title)) {
-            $message['error'] .= '<li>Title field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
         }
         if (empty($content)) {
-            $message['error'] .= '<li>Content field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
         config('views.root', 'system/admin/views');
 
@@ -3041,24 +3499,24 @@ get('/:year/:month/:name/edit', function ($year, $month, $name) {
         
         if ($user === $current->author || $role === 'admin') {
             render('edit-content', array(
-                'title' => $type .' - '. blog_title(),
+                'title' => $current->title .' - '. blog_title(),
                 'description' => strip_tags(blog_description()),
                 'canonical' => site_url(),
                 'p' => $current,
                 'type' => $type,
                 'bodyclass' => 'edit-post',
                 'is_admin' => true,
-                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->tagb . ' &#187; ' . $current->title
+                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->categoryb . ' &#187; ' . $current->title
             ));
         } else {
             render('denied', array(
-                'title' => $type .' - '. blog_title(),
+                'title' => $current->title .' - '. blog_title(),
                 'description' => strip_tags(blog_description()),
                 'canonical' => site_url(),
                 'p' => $current,
                 'bodyclass' => 'denied',
                 'is_admin' => true,
-                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->tagb . ' &#187; ' . $current->title
+                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->categoryb . ' &#187; ' . $current->title
             ));
         }
     } else {
@@ -3153,44 +3611,44 @@ post('/:year/:month/:name/edit', function () {
     } else {
         $message['error'] = '';
         if (empty($title)) {
-            $message['error'] .= '<li>Title field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Title field is required.</li>';
         }
         if (empty($tag)) {
-            $message['error'] .= '<li>Tag field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Tag field is required.</li>';
         }
         if (empty($content)) {
-            $message['error'] .= '<li>Content field is required.</li>';
+            $message['error'] .= '<li class="alert alert-danger">Content field is required.</li>';
         }
         if (!$proper) {
-            $message['error'] .= '<li>CSRF Token not correct.</li>';
+            $message['error'] .= '<li class="alert alert-danger">CSRF Token not correct.</li>';
         }
 
         if (!empty($is_image)) {
             if (empty($image)) {
-                $message['error'] .= '<li>Image field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Image field is required.</li>';
             }
         } elseif (!empty($is_video)) {
             if (empty($video)) {
-                $message['error'] .= '<li>Video field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Video field is required.</li>';
             }
         } elseif (!empty($is_link)) {
             if (empty($link)) {
-                $message['error'] .= '<li>Link field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Link field is required.</li>';
             }
         } elseif (!empty($is_quote)) {
             if (empty($quote)) {
-                $message['error'] .= '<li>Quote field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Quote field is required.</li>';
             }
         } elseif (!empty($is_audio)) {
             if (empty($audio)) {
-                $message['error'] .= '<li>Audio field is required.</li>';
+                $message['error'] .= '<li class="alert alert-danger">Audio field is required.</li>';
             }
         }
         
         config('views.root', 'system/admin/views');
 
         render('edit-content', array(
-            'title' => $type . ' - ' .  blog_title(),
+            'title' => $title . ' - ' .  blog_title(),
             'description' => strip_tags(blog_description()),
             'canonical' => site_url(),
             'error' => '<ul>' . $message['error'] . '</ul>',
@@ -3240,7 +3698,7 @@ get('/:year/:month/:name/delete', function ($year, $month, $name) {
                 'p' => $current,
                 'bodyclass' => 'delete-post',
                 'is_admin' => true,
-                'breadcrumb' => '<span><a rel="v:url" href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->tagb . ' &#187; ' . $current->title
+                'breadcrumb' => '<span><a rel="v:url" href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->categoryb . ' &#187; ' . $current->title
             ));
         } else {
             render('denied', array(
@@ -3250,7 +3708,7 @@ get('/:year/:month/:name/delete', function ($year, $month, $name) {
                 'p' => $current,
                 'bodyclass' => 'delete-post',
                 'is_admin' => true,
-                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->tagb . ' &#187; ' . $current->title
+                'breadcrumb' => '<span><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></span> &#187; ' . $current->categoryb . ' &#187; ' . $current->title
             ));
         }
     } else {

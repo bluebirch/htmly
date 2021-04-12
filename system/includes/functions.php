@@ -268,12 +268,14 @@ function get_posts($posts, $page = 1, $perpage = 0)
         if($str[count($str) - 3] == 'uncategorized') {
             $category = default_category();
             $post->category = '<a href="' . $category->url . '">' . $category->title . '</a>';
+            $post->categoryUrl = $category->url;
             $post->categoryb = '<a itemprop="item" href="' . $category->url . '"><span itemprop="name">' . $category->title . '</span></a>';
         } else {
 
             foreach ($catC as $k => $v) {
                 if ($v['0'] === $str[count($str) - 3]) {
                     $post->category = '<a href="' . site_url() . 'category/' . $v['0'] . '">' . $v['1'] . '</a>';
+                    $post->categoryUrl = site_url() . 'category/' . $v['0'];
                     $post->categoryb = '<a itemprop="item" href="' . site_url() . 'category/' . $v['0'] . '"><span itemprop="name">' . $v['1'] . '</span></a>';
                 }
             }
@@ -942,7 +944,9 @@ function get_keyword($keyword, $page, $perpage)
         $filter = $arr[1] . ' ' . $arr[2];
         foreach ($words as $word) {
             if (stripos($filter, $word) !== false) {
-                $tmp[] = $v;
+                if (!in_array($v, $tmp)) {
+                    $tmp[] = $v; 
+                }
             }
         }
     }
@@ -1096,7 +1100,7 @@ function get_draftcount($var)
 
         // Author string
         $str = explode('/', $replaced);
-        $cat = $str[count($str) - 3];
+        $cat = $str[count($str) - 5];
 
         if (stripos($cat, "$var") !== false) {
             $tmp[] = $v;
@@ -1811,7 +1815,7 @@ function base64_encode_image($filename = string, $filetype = string)
     }
 }
 
-// Social links
+// Social links. Deprecated
 function social($imgDir = null)
 {
     $twitter = config('social.twitter');
@@ -1820,7 +1824,7 @@ function social($imgDir = null)
     $rss = site_url() . 'feed/rss';
 
     if ($imgDir === null) {
-        $imgDir = "default/img/";
+        $imgDir = "readable/img/";
     }
 
     if (!empty($twitter)) {
@@ -1946,86 +1950,163 @@ function publisher()
 }
 
 // Google Analytics
-function analytics($analyticsDir = null)
+function analytics()
 {
     $analytics = config('google.analytics.id');
-    if ($analyticsDir === null) {
-        $analyticsDir = '//www.google-analytics.com/analytics.js';
-    } else {
-        $analyticsDir = site_url() . 'themes/' . $analyticsDir . 'analytics.js';
-    }
+    $gtag = config('google.gtag.id');	
     $script = <<<EOF
     <script>
         (function (i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function () {
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','{$analyticsDir}','ga');
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         ga('create', '{$analytics}', 'auto');
         ga('send', 'pageview');
 </script>
 EOF;
-    if (!empty($analytics)) {
-        return $script;
-    }
+    $gtagScript = <<<EOF
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={$gtag}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '{$gtag}');
+</script>
+EOF;
+    if (!empty($gtag)) {
+        return $gtagScript;
+    } elseif (!empty($analytics)) {
+		return $script;
+	}
+}
+
+function slashUrl($url) {
+    return rtrim($url, '/') . '/';
+}
+
+function parseNodes($nodes, $child = null, $class = null) {
+	if (empty($child)) {
+		$ul = '<ul class="nav navbar-nav '.$class.'">';
+		foreach ($nodes as $node) {
+			if (isset($node->children)) { 
+				$ul .= parseNode($node, true);
+			} else {
+				$ul .= parseNode($node);
+			}
+		}
+		$ul .= '</ul>';
+		return $ul;
+	} else {
+		$ul = '<ul class="subnav dropdown-menu" role="menu">';
+		foreach ($nodes as $node) {
+			if (isset($node->children)) { 
+				$ul .= parseNode($node, true);
+			} else {
+				$ul .= parseNode($node);
+			}
+		}
+		$ul .= '</ul>';
+		return $ul;
+	}
+}
+
+function parseNode($node, $child = null) {
+	$req = strtok($_SERVER["REQUEST_URI"],'?');
+    $url = parse_url(slashUrl($node->slug));
+    $su = parse_url(site_url());
+	if (empty($child)) {
+
+		if (isset($url['host'])) {
+			if ($url['host'] ==  $su['host']) {
+				if (slashUrl($url['path']) == slashUrl($req)) {
+                    $li = '<li class="item active '.$node->class.'">';
+				} else  {					
+				    $li = '<li class="item '.$node->class.'">';
+				}
+			} else {
+				$li = '<li class="item '.$node->class.'">'; // Link out
+			}
+		} else {
+			if (slashUrl($node->slug) == slashUrl($req)) {
+				$li = '<li class="item active '.$node->class.'">';
+			} else {
+				$li = '<li class="item '.$node->class.'">';
+			}
+		}
+		
+		$li .= '<a href="'.htmlspecialchars(slashUrl($node->slug), FILTER_SANITIZE_URL).'">'.$node->name.'</a>';
+		if (isset($node->children)) { 
+			$li .= parseNodes($node->children, true, null);
+		}
+		$li .= '</li>';
+		return $li;
+	} else {
+		
+		if (isset($url['host'])) {
+			if ($url['host'] ==  $su['host']) {
+				if (slashUrl($url['path']) == slashUrl($req)) {
+                    $li = '<li class="item dropdown active '.$node->class.'">';
+				} else  {					
+				    $li = '<li class="item dropdown '.$node->class.'">';
+				}
+			} else {
+				$li = '<li class="item dropdown '.$node->class.'">'; // Link out
+			}
+		} else {
+			if (slashUrl($node->slug) == slashUrl($req)) {
+				$li = '<li class="item dropdown active '.$node->class.'">';
+			} else {
+				$li = '<li class="item dropdown '.$node->class.'">';
+			}
+		}
+		
+		$li .= '<a class="dropdown-toggle" data-toggle="dropdown" href="'.htmlspecialchars(slashUrl($node->slug), FILTER_SANITIZE_URL).'">'.$node->name.'<b class="caret"></b></a>';
+		if (isset($node->children)) { 
+			$li .= parseNodes($node->children, true, null);
+		}
+		$li .= '</li>';
+		return $li;			
+	}
 }
 
 // Menu
-function menu($custom = null)
+function menu($class = null)
 {
-    $menu = config('blog.menu');
-    $req = strtok($_SERVER["REQUEST_URI"],'?');
+    $filename = "content/data/menu.json";
+    if (file_exists($filename)) {
+		$json = json_decode(file_get_contents('content/data/menu.json', true));
+		$nodes = json_decode($json);
+	    if (empty($nodes)) {
+            get_menu($class);
+	    } else {
+            $html = parseNodes($nodes, null, $class);
+            libxml_use_internal_errors(true);
+            $doc = new DOMDocument();
+            $doc->loadHTML($html);
 
-    if (!empty($menu)) {
+            $finder = new DOMXPath($doc);
+            $elements = $finder->query("//*[contains(concat(' ', normalize-space(@class), ' '), ' dropdown-menu ')]");
 
-        $links = explode('|', $menu);
-
-        echo '<ul class="nav ' . $custom . '">';
-
-        $i = 0;
-        $len = count($links);
-
-        foreach ($links as $link) {
-
-            if ($i == 0) {
-                $class = 'item first';
-            } elseif ($i == $len - 1) {
-                $class = 'item last';
-            } else {
-                $class = 'item';
+            // loop through all <ul> with dropdown-menu class
+            foreach ($elements as $element) {
+                $nodes = $element->childNodes;
+                foreach ($nodes as $node) {
+		            $class = $node->getAttribute('class');
+		            if (stripos($class, 'active')) {
+						$parentClass = $element->parentNode->getAttribute('class') . ' active';
+			            $element->parentNode->setAttribute('class', $parentClass);
+		            } 
+	            }
             }
-
-            $i++;
-
-            $anc = explode('->', $link);
-
-            if (isset($anc[0]) && isset($anc[1])) {
-
-                if (stripos(rtrim($anc[1], '/') . '/', site_url()) !== false) {
-                    if (rtrim($anc[1], '/') . '/' == site_url()) {
-                        if ($req == site_path() . '/' || stripos($req, site_path() . '/?page') !== false) {
-                            echo '<li class="' . $class . ' active"><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></li>';
-                        } else {
-                            echo '<li class="' . $class . '"><a href="' . site_url() . '">' . config('breadcrumb.home') . '</a></li>';
-                        }
-                    } elseif (stripos($anc[1], $req) !== false) {
-                        if ($req == site_path() . '/' || stripos($req, site_path() . '/?page') !== false) {
-                            echo '<li class="' . $class . '"><a href="' . $anc[1] . '">' . $anc[0] . '</a></li>';
-                        } else {
-                            echo '<li class="' . $class . ' active"><a href="' . $anc[1] . '">' . $anc[0] . '</a></li>';
-                        }
-                    } else {
-                        echo '<li class="' . $class . '"><a href="' . $anc[1] . '">' . $anc[0] . '</a></li>';
-                    }
-                } else {
-                    echo '<li class="' . $class . '"><a target="_blank" href="' . $anc[1] . '">' . $anc[0] . '</a></li>';
-                }
-            }
-        }
-
-        echo '</ul>';
-    } else {
-        get_menu($custom);
-    }
+			
+		return preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', utf8_decode($doc->saveHTML($doc->documentElement)));
+			
+	    }
+	} else {
+        get_menu($class);	
+	}
 }
 
 // Get the title from file
@@ -2174,6 +2255,14 @@ EOF;
 // The not found error
 function not_found()
 {
+    $vroot = rtrim(config('views.root'), '/');
+    $lt = $vroot . '/layout--404.html.php'; 
+    if (file_exists($lt)) {
+        $layout = 'layout--404';
+    } else {
+        $layout = '';
+    }
+	
     header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
     render('404', array(
         'title' => 'This page doesn\'t exist! - ' . blog_title(),
@@ -2182,7 +2271,7 @@ function not_found()
         'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; 404 Not Found',
         'bodyclass' => 'error-404',
         'is_404' => true,
-    ));
+    ), $layout);
     die();
 }
 
@@ -2216,11 +2305,8 @@ function generate_rss($posts)
         }
 
         $item = new Item();
-        $cats = explode(',', str_replace(' ', '', strip_tags(remove_accent($p->category))));
-        foreach ($cats as $cat) {
-            $item
-                ->category($cat, site_url() . 'category/' . strtolower($cat));
-        }
+        $item
+            ->category(strip_tags($p->category));
         $item
             ->title($p->title)
             ->pubDate($p->date)
@@ -2768,26 +2854,26 @@ function toolbar()
 EOF;
     echo '<div id="toolbar"><ul>';
     echo '<li class="tb-admin"><a href="' . $base . 'admin">' . i18n('Admin') . '</a></li>';
+    echo '<li class="tb-addcontent"><a href="' . $base . 'admin/content">' . i18n('Add_content') . '</a></li>';
     if ($role === 'admin') {
         echo '<li class="tb-posts"><a href="' . $base . 'admin/posts">' . i18n('Posts') . '</a></li>';
         if (config('views.counter') == 'true') {
             echo '<li class="tb-popular"><a href="' . $base . 'admin/popular">Popular</a></li>';
         }
     }
-    echo '<li class="tb-mine"><a href="' . $base . 'admin/mine">' . i18n('Mine') . '</a></li>';
+    echo '<li class="tb-mine"><a href="' . $base . 'admin/pages">Pages</a></li>';
     echo '<li class="tb-draft"><a href="' . $base . 'admin/draft">' . i18n('Draft') . '</a></li>';
-    echo '<li class="tb-addcontent"><a href="' . $base . 'admin/content">' . i18n('Add_content') . '</a></li>';
     if ($role === 'admin') {
         echo '<li class="tb-categories"><a href="' . $base . 'admin/categories">' . i18n('Categories') . '</a></li>';
     }
-    echo '<li class="tb-editprofile"><a href="' . $base . 'edit/profile">' . i18n('Edit_profile') . '</a></li>';
-    echo '<li class="tb-import"><a href="' . $base . 'admin/import">' . i18n('Import') . '</a></li>';
-    echo '<li class="tb-backup"><a href="' . $base . 'admin/backup">' . i18n('Backup') . '</a></li>';
+    echo '<li class="tb-import"><a href="' . $base . 'admin/menu">Menu</a></li>';
     if ($role === 'admin') {
       echo '<li class="tb-config"><a href="' . $base . 'admin/config">' . i18n('Config') . '</a></li>';
     }
-    echo '<li class="tb-clearcache"><a href="' . $base . 'admin/clear-cache">' . i18n('Clear_cache') . '</a></li>';
+    echo '<li class="tb-backup"><a href="' . $base . 'admin/backup">' . i18n('Backup') . '</a></li>';
     echo '<li class="tb-update"><a href="' . $base . 'admin/update">' . i18n('Update') . '</a></li>';
+    echo '<li class="tb-clearcache"><a href="' . $base . 'admin/clear-cache">' . i18n('Clear_cache') . '</a></li>';
+    echo '<li class="tb-editprofile"><a href="' . $base . 'edit/profile">' . i18n('Edit_profile') . '</a></li>';
     echo '<li class="tb-logout"><a href="' . $base . 'logout">' . i18n('Logout') . '</a></li>';
 
     echo '</ul></div>';
@@ -2859,19 +2945,16 @@ function add_view($page)
     } else {
         $views[$page] = 1;
     }
-    file_put_contents($filename, json_encode($views));
+    file_put_contents($filename, json_encode($views, JSON_UNESCAPED_UNICODE));
 }
 
 // Get the page views count
 function get_views($page)
 {
-    static $_views = array();
-
-    if (empty($_views)) {
-        $filename = "content/data/views.json";
-        if (file_exists($filename)) {
-            $_views = json_decode(file_get_contents($filename), true);
-        }
+    $_views = array();
+    $filename = "content/data/views.json";
+    if (file_exists($filename)) {
+        $_views = json_decode(file_get_contents($filename), true);
     }
     if (isset($_views[$page])) {
         return $_views[$page];
@@ -3237,4 +3320,19 @@ function format_date($date)
         return strftime($date_format, $date);
     }
 
+}
+
+function valueMaker($value)
+{
+    if (is_string($value))
+        return htmlspecialchars($value);
+
+    if ($value === true)
+        return "true";
+    if ($value === false)
+        return "false";
+
+    if ($value == false)
+        return "0";
+    return (string)$value;
 }
