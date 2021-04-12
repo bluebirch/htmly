@@ -1,3 +1,4 @@
+<?php if (!defined('HTMLY')) die('HTMLy'); ?>
 <?php
 
 $type = $type;
@@ -10,6 +11,14 @@ if ($type != 'is_post' && $type != 'is_image' && $type != 'is_video' && $type !=
 $desc = get_category_info(null);
 
 $tags = tag_cloud(true);
+$tagslang = "content/data/tags.lang";
+if (file_exists($tagslang)) {
+    $ptags = unserialize(file_get_contents($tagslang));
+    $tkey = array_keys($tags);
+    $newlang = array_intersect_key($ptags, array_flip($tkey));
+    $tmp = serialize($newlang);
+    file_put_contents($tagslang, print_r($tmp, true));
+}
 
 ?>
 

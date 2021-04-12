@@ -1,4 +1,5 @@
 <?php
+if (!defined('HTMLY')) die('HTMLy');
 
 // Load the configuration file
 config('source', $config_file);
@@ -1766,6 +1767,9 @@ post('/admin/menu', function () {
     if (login()) {
         $json = from($_REQUEST, 'json');
 		file_put_contents('content/data/menu.json', json_encode($json, JSON_UNESCAPED_UNICODE));
+        echo json_encode(array(
+            'message' => 'Menu saved successfully!',
+        ));
     }
 });
 

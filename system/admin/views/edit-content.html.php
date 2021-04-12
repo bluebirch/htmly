@@ -1,3 +1,4 @@
+<?php if (!defined('HTMLY')) die('HTMLy'); ?>
 <?php
 if (isset($p->file)) {
     $url = $p->file;
@@ -55,6 +56,14 @@ if (config('permalink.type') == 'post') {
 }
 
 $tags = tag_cloud(true);
+$tagslang = "content/data/tags.lang";
+if (file_exists($tagslang)) {
+    $ptags = unserialize(file_get_contents($tagslang));
+    $tkey = array_keys($tags);
+    $newlang = array_intersect_key($ptags, array_flip($tkey));
+    $tmp = serialize($newlang);
+    file_put_contents($tagslang, print_r($tmp, true));
+}
 
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo site_url() ?>system/admin/editor/css/editor.css"/>

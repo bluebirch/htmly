@@ -1,4 +1,5 @@
 <?php
+if (!defined('HTMLY')) die('HTMLy');
 
 use \Michelf\MarkdownExtra;
 use \Suin\RSSWriter\Feed;
@@ -1465,11 +1466,29 @@ function tag_cloud($custom = null)
         }
 
         if(empty($custom)) {
-            echo '<ul class="taglist">';
-            foreach ($tag_collection as $tag => $count) {
-                echo '<li class="item"><a href="' . site_url() . 'tag/' . $tag . '">' . tag_i18n($tag) . '</a> <span class="count">(' . $count . ')</span></li>';
+            // Font sizes
+            $max_size = 22; // max font size in %
+            $min_size = 8; // min font size in %
+
+            // Get the largest and smallest array values
+            $max_qty = max(array_values($tag_collection));
+            $min_qty = min(array_values($tag_collection));
+
+            // Find the range of values
+            $spread = $max_qty - $min_qty;
+            if (0 == $spread) { // we don't want to divide by zero
+                $spread = 1;
             }
-            echo '</ul>';
+
+            // Font-size increment
+            // this is the increase per tag quantity (times used)
+            $step = ($max_size - $min_size)/($spread);
+
+            foreach ($tag_collection as $tag => $count) {
+                $size = $min_size + (($count - $min_qty) * $step);
+                echo ' <a class="tag-cloud-link" href="'. site_url(). 'tag/'. $tag .'" style="font-size:'. $size .'pt;">'.tag_i18n($tag).'</a> ';
+            }			
+
         } else {
             return $tag_collection;
         }
@@ -1580,9 +1599,9 @@ function get_pagination($page = 1, $totalitems, $perpage = 10, $adjacents = 1, $
 
         //previous button
         if ($page > 1)
-            $pagination .= '<li><a href="'. $pagestring . $prev .'">« Prev</a></li>';
+            $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring . $prev .'">« Prev</a></li>';
         else
-            $pagination .= '<li class="disabled"><span>« Prev</span></li>';
+            $pagination .= '<li class="page-item disabled"><span>« Prev</span></li>';
 
         //pages
         if ($lastpage < 7 + ($adjacents * 2))    //not enough pages to bother breaking it up
@@ -1590,9 +1609,9 @@ function get_pagination($page = 1, $totalitems, $perpage = 10, $adjacents = 1, $
             for ($counter = 1; $counter <= $lastpage; $counter++)
             {
                 if ($counter == $page)
-                    $pagination .= '<li class="active"><span>'. $counter.'</span></li>';
+                    $pagination .= '<li class="page-item active"><span>'. $counter.'</span></li>';
                 else
-                    $pagination .= '<li><a href="'. $pagestring . $counter .'">'. $counter .'</a></li>';
+                    $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring . $counter .'">'. $counter .'</a></li>';
             }
         }
         elseif($lastpage >= 7 + ($adjacents * 2))    //enough pages to hide some
@@ -1603,52 +1622,52 @@ function get_pagination($page = 1, $totalitems, $perpage = 10, $adjacents = 1, $
                 for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
                 {
                     if ($counter == $page)
-                        $pagination .= '<li class="active"><span>'. $counter .'</span></li>';
+                        $pagination .= '<li class="page-item active"><span>'. $counter .'</span></li>';
                     else
-                        $pagination .= '<li><a href="'. $pagestring . $counter .'">'. $counter .'</a></li>';
+                        $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring . $counter .'">'. $counter .'</a></li>';
                 }
-                $pagination .= '<li class="disabled"><span>...</span></li>';
-                $pagination .= '<li><a href="'. $pagestring . $lpm1 .'">'. $lpm1 .'</a></li>';
-                $pagination .= '<li><a href="'. $pagestring . $lastpage .'">'. $lastpage .'</a></li>';
+                $pagination .= '<li class="page-item disabled"><span>...</span></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring . $lpm1 .'">'. $lpm1 .'</a></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring . $lastpage .'">'. $lastpage .'</a></li>';
             }
             //in middle; hide some front and some back
             elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
             {
-                $pagination .= '<li><a href="' . $pagestring .'1">1</a></li>';
-                $pagination .= '<li><a href="'. $pagestring .'2">2</a></li>';
-                $pagination .= '<li class="disabled"><span>...</span></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" href="' . $pagestring .'1">1</a></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring .'2">2</a></li>';
+                $pagination .= '<li class="page-item disabled"><span>...</span></li>';
                 for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
                 {
                     if ($counter == $page)
-                        $pagination .= '<li class="active"><span>'. $counter .'</span></li>';
+                        $pagination .= '<li class="page-item active"><span>'. $counter .'</span></li>';
                     else
-                        $pagination .= '<li><a href="'. $pagestring . $counter .'">'. $counter .'</a></li>';
+                        $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring . $counter .'">'. $counter .'</a></li>';
                 }
-                $pagination .= '<li class="disabled"><span>...</span></li>';
-                $pagination .= '<li><a href="'. $pagestring . $lpm1 .'">'. $lpm1 .'</a></li>';
-                $pagination .= '<li><a href="'. $pagestring . $lastpage . '">'. $lastpage .'</a></li>';
+                $pagination .= '<li class="page-item disabled"><span>...</span></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring . $lpm1 .'">'. $lpm1 .'</a></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring . $lastpage . '">'. $lastpage .'</a></li>';
             }
             //close to end; only hide early pages
             else
             {
-                $pagination .= '<li><a href="'. $pagestring .'1">1</a></li>';
-                $pagination .= '<li><a href="'. $pagestring .'2">2</a></li>';
-                $pagination .= '<li class="disabled"><span>...</span></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring .'1">1</a></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring .'2">2</a></li>';
+                $pagination .= '<li class="page-item disabled"><span>...</span></li>';
                 for ($counter = $lastpage - (1 + ($adjacents * 3)); $counter <= $lastpage; $counter++)
                 {
                     if ($counter == $page)
-                        $pagination .= '<li class="active"><span>'. $counter .'</span></li>';
+                        $pagination .= '<li class="page-item active"><span>'. $counter .'</span></li>';
                     else
-                        $pagination .= '<li><a href="'. $pagestring . $counter .'">'. $counter .'</a></li>';
+                        $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring . $counter .'">'. $counter .'</a></li>';
                 }
             }
         }
 
         //next button
         if ($page < $counter - 1)
-            $pagination .= '<li><a href="'. $pagestring . $next .'">Next »</a></li>';
+            $pagination .= '<li class="page-item"><a class="page-link" href="'. $pagestring . $next .'">Next »</a></li>';
         else
-            $pagination .= '<li class="disabled"><span>Next »</span></li>';
+            $pagination .= '<li class="page-item disabled"><span>Next »</span></li>';
         $pagination .= '</ul>';
     }
 
@@ -2021,22 +2040,22 @@ function parseNode($node, $child = null) {
 		if (isset($url['host'])) {
 			if ($url['host'] ==  $su['host']) {
 				if (slashUrl($url['path']) == slashUrl($req)) {
-                    $li = '<li class="item active '.$node->class.'">';
+                    $li = '<li class="item nav-item active '.$node->class.'">';
 				} else  {					
-				    $li = '<li class="item '.$node->class.'">';
+				    $li = '<li class="item nav-item '.$node->class.'">';
 				}
 			} else {
-				$li = '<li class="item '.$node->class.'">'; // Link out
+				$li = '<li class="item nav-item '.$node->class.'">'; // Link out
 			}
 		} else {
 			if (slashUrl($node->slug) == slashUrl($req)) {
-				$li = '<li class="item active '.$node->class.'">';
+				$li = '<li class="item nav-item active '.$node->class.'">';
 			} else {
-				$li = '<li class="item '.$node->class.'">';
+				$li = '<li class="item nav-item '.$node->class.'">';
 			}
 		}
 		
-		$li .= '<a href="'.htmlspecialchars(slashUrl($node->slug), FILTER_SANITIZE_URL).'">'.$node->name.'</a>';
+		$li .= '<a class="nav-link" href="'.htmlspecialchars(slashUrl($node->slug), FILTER_SANITIZE_URL).'">'.$node->name.'</a>';
 		if (isset($node->children)) { 
 			$li .= parseNodes($node->children, true, null);
 		}
@@ -2047,22 +2066,22 @@ function parseNode($node, $child = null) {
 		if (isset($url['host'])) {
 			if ($url['host'] ==  $su['host']) {
 				if (slashUrl($url['path']) == slashUrl($req)) {
-                    $li = '<li class="item dropdown active '.$node->class.'">';
+                    $li = '<li class="item nav-item dropdown active '.$node->class.'">';
 				} else  {					
-				    $li = '<li class="item dropdown '.$node->class.'">';
+				    $li = '<li class="item nav-item dropdown '.$node->class.'">';
 				}
 			} else {
-				$li = '<li class="item dropdown '.$node->class.'">'; // Link out
+				$li = '<li class="item nav-item dropdown '.$node->class.'">'; // Link out
 			}
 		} else {
 			if (slashUrl($node->slug) == slashUrl($req)) {
-				$li = '<li class="item dropdown active '.$node->class.'">';
+				$li = '<li class="item nav-item dropdown active '.$node->class.'">';
 			} else {
-				$li = '<li class="item dropdown '.$node->class.'">';
+				$li = '<li class="item nav-item dropdown '.$node->class.'">';
 			}
 		}
 		
-		$li .= '<a class="dropdown-toggle" data-toggle="dropdown" href="'.htmlspecialchars(slashUrl($node->slug), FILTER_SANITIZE_URL).'">'.$node->name.'<b class="caret"></b></a>';
+		$li .= '<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="'.htmlspecialchars(slashUrl($node->slug), FILTER_SANITIZE_URL).'">'.$node->name.'<b class="caret"></b></a>';
 		if (isset($node->children)) { 
 			$li .= parseNodes($node->children, true, null);
 		}

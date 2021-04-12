@@ -1,5 +1,4 @@
 <?php
-
 config('source', 'config/config.ini');
 
 $updater = new Kanti\HubUpdater("danpros/htmly");
