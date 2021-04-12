@@ -7,8 +7,8 @@ timezone = "Asia/Jakarta"
 ; Date format. See: https://www.php.net/manual/en/function.strftime
 date.format = "%d %B %Y"
 
-; Your language (currently only "en" for English or "de" for German)
-language = "en"
+; Your language (example "en_US" for English or "de_DE" for German. See lang directory for available language)
+language = "en_US"
 
 ; Blog info
 blog.title = "HTMLy"
@@ -152,7 +152,7 @@ generation.time = "false"
 cache.timestamp = "false"
 
 ; Set the theme here
-views.root = "themes/twentysixteen"
+views.root = "themes/twentyfifteen"
 
 ; Use "smart" transforms of straight quotes into curly quotes, dashes into en- and em-dashes, etc.
 smart = "true"

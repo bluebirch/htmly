@@ -1,18 +1,20 @@
-<?php 
+<?php
 
 $type = $type;
 
 if ($type != 'is_post' && $type != 'is_image' && $type != 'is_video' && $type != 'is_audio' && $type != 'is_link' && $type != 'is_quote') {
     $add = site_url() . 'admin/content';
-    header("location: $add");    
+    header("location: $add");
 }
 
 $desc = get_category_info(null);
 
+$tags = tag_cloud(true);
+
 ?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo site_url() ?>system/admin/editor/css/editor.css"/>
-<script src="<?php echo site_url() ?>system/resources/js/jquery.min.js"></script> 
+<script src="<?php echo site_url() ?>system/resources/js/jquery.min.js"></script>
 <script src="<?php echo site_url() ?>system/resources/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?php echo site_url() ?>system/admin/editor/js/Markdown.Converter.js"></script>
 <script type="text/javascript" src="<?php echo site_url() ?>system/admin/editor/js/Markdown.Sanitizer.js"></script>
@@ -20,6 +22,53 @@ $desc = get_category_info(null);
 <script type="text/javascript" src="<?php echo site_url() ?>system/admin/editor/js/Markdown.Extra.js"></script>
 <link rel="stylesheet" href="<?php echo site_url() ?>system/resources/css/jquery-ui.css">
 <script type="text/javascript" src="<?php echo site_url() ?>system/admin/editor/js/jquery.ajaxfileupload.js"></script>
+<script>
+$( function() {
+    var availableTags = [
+<?php foreach ($tags as $tag => $count):?>
+    "<?php echo tag_i18n($tag) ?>",
+<?php endforeach;?>
+    ];
+    function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+ 
+    $( "#pTag" )
+      // don't navigate away from the field on tab when selecting an item
+      .on( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            availableTags, extractLast( request.term ) ) );
+        },
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+          // remove the current input
+          terms.pop();
+          // add the selected item
+          terms.push( ui.item.value );
+          // add placeholder to get the comma-and-space at the end
+          terms.push( "" );
+          this.value = terms.join( ", " );
+          return false;
+        }
+      });
+  } );
+</script>
 
 <?php if (isset($error)) { ?>
     <div class="error-message"><?php echo $error ?></div>
@@ -27,77 +76,81 @@ $desc = get_category_info(null);
 
 <div class="wmd-panel">
     <form method="POST">
-        <?php echo i18n('Title');?> <span class="required">*</span>
-        <br>
-        <input type="text" class="text <?php if (isset($postTitle)) { if (empty($postTitle)) { echo 'error';}} ?>" name="title" value="<?php if (isset($postTitle)) { echo $postTitle;} ?>"/>
-        <br><br>
-        <?php echo i18n('Category');?> <span class="required">*</span>
-        <br>
-        <select name="category">
+        <label for="pTitle"><?php echo i18n('Title');?> <span class="required">*</span></label>
+        <br />
+        <input autofocus type="text" class="text <?php if (isset($postTitle)) { if (empty($postTitle)) { echo 'error';}} ?>" id="pTitle" name="title" value="<?php if (isset($postTitle)) { echo $postTitle;} ?>"/>
+        <br /><br />
+        <label for="pCategory"><?php echo i18n('Category');?> <span class="required">*</span></label>
+        <br />
+        <select id="pCategory" name="category">
             <option value="uncategorized"><?php echo i18n("Uncategorized");?></option>
             <?php foreach ($desc as $d):?>
                 <option value="<?php echo $d->md;?>"><?php echo $d->title;?></option>
             <?php endforeach;?>
-        </select> 
-        <br><br>
-        Tag <span class="required">*</span>
-        <br>
-        <input type="text" class="text <?php if (isset($postTag)) { if (empty($postTag)) { echo 'error';}} ?>" name="tag" value="<?php if (isset($postTag)) { echo $postTag; } ?>"/>
-        <br><br>
-        Url (optional)<br><input type="text" class="text" name="url" value="<?php if (isset($postUrl)) { echo $postUrl;} ?>"/>
-        <br>
+        </select>
+        <br /><br />
+        <label for="pTag">Tag <span class="required">*</span></label>
+        <br />
+        <input type="text" class="text <?php if (isset($postTag)) { if (empty($postTag)) { echo 'error';}} ?>" id="pTag" name="tag" value="<?php if (isset($postTag)) { echo $postTag; } ?>"/>
+        <br /><br />
+        <label for="pURL">Url (optional)</label>
+        <br />
+        <input type="text" class="text" id="pURL" name="url" value="<?php if (isset($postUrl)) { echo $postUrl;} ?>"/>
+        <br />
         <span class="help">If the url leave empty we will use the post title.</span>
-        <br><br>
-        <?php echo i18n('Meta_description');?> (optional)<br>
-        <textarea name="description" rows="3" cols="20"><?php if (isset($p->description)) { echo $p->description;} ?></textarea>
-        <br><br>
-        
+        <br /><br />
+        <label for="pMeta"><?php echo i18n('Meta_description');?> (optional)</label>
+        <br />
+        <textarea id="pMeta" name="description" rows="3" cols="20"><?php if (isset($p->description)) { echo $p->description;} ?></textarea>
+        <br /><br />
+
         <?php if ($type == 'is_audio'):?>
-        Featured Audio <span class="required">*</span> (SoundCloud Only)
-        <br>
-        <textarea rows="3" cols="20" class="text <?php if (isset($postAudio)) { if (empty($postAudio)) { echo 'error';} } ?>" name="audio"><?php if (isset($postAudio)) { echo $postAudio;} ?></textarea>
+        <label for="pAudio">Featured Audio <span class="required">*</span> (SoundCloud Only)</label>
+        <br />
+        <textarea rows="3" cols="20" class="text <?php if (isset($postAudio)) { if (empty($postAudio)) { echo 'error';} } ?>" id="pAudio" name="audio"><?php if (isset($postAudio)) { echo $postAudio;} ?></textarea>
         <input type="hidden" name="is_audio" value="is_audio">
-        <br>
+        <br />
         <?php endif;?>
-        
+
         <?php if ($type == 'is_video'):?>
-        Featured Video <span class="required">*</span> (Youtube Only)
-        <br>
-        <textarea rows="3" cols="20" class="text <?php if (isset($postVideo)) { if (empty($postVideo)) { echo 'error';} } ?>" name="video"><?php if (isset($postVideo)) { echo $postVideo;} ?></textarea>
+        <label for="pVideo">Featured Video <span class="required">*</span> (Youtube Only)</label>
+        <br />
+        <textarea rows="3" cols="20" class="text <?php if (isset($postVideo)) { if (empty($postVideo)) { echo 'error';} } ?>" id="pVideo" name="video"><?php if (isset($postVideo)) { echo $postVideo;} ?></textarea>
         <input type="hidden" name="is_video" value="is_video">
-        <br>
+        <br />
         <?php endif;?>
-        
+
         <?php if ($type == 'is_image'):?>
-        Featured Image <span class="required">*</span>
-        <br>
-        <textarea rows="3" cols="20" class="text <?php if (isset($postImage)) { if (empty($postImage)) { echo 'error';} } ?>" name="image"><?php if (isset($postImage)) { echo $postImage;} ?></textarea>
+        <label for="pImage">Featured Image <span class="required">*</span></label>
+        <br />
+        <textarea rows="3" cols="20" class="text <?php if (isset($postImage)) { if (empty($postImage)) { echo 'error';} } ?>" id="pImage" name="image"><?php if (isset($postImage)) { echo $postImage;} ?></textarea>
         <input type="hidden" name="is_image" value="is_image">
-        <br>
+        <br />
         <?php endif;?>
-        
+
         <?php if ($type == 'is_quote'):?>
-        Featured Quote <span class="required">*</span>
-        <br>
-        <textarea rows="3" cols="20" class="text <?php if (isset($postQuote)) { if (empty($postQuote)) { echo 'error';} } ?>" name="quote"><?php if (isset($postQuote)) { echo $postQuote;} ?></textarea>
+        <label for="pQuote">Featured Quote <span class="required">*</span></label>
+        <br />
+        <textarea rows="3" cols="20" class="text <?php if (isset($postQuote)) { if (empty($postQuote)) { echo 'error';} } ?>" id="pQuote" name="quote"><?php if (isset($postQuote)) { echo $postQuote;} ?></textarea>
         <input type="hidden" name="is_quote" value="is_quote">
-        <br>
+        <br />
         <?php endif;?>
-        
+
         <?php if ($type == 'is_link'):?>
-        Featured Link <span class="required">*</span>
-        <br>
-        <textarea rows="3" cols="20" class="text <?php if (isset($postLink)) { if (empty($postLink)) { echo 'error';} } ?>" name="link"><?php if (isset($postLink)) { echo $postLink;} ?></textarea>
+        <label for="pLink">Featured Link <span class="required">*</span></label>
+        <br />
+        <textarea rows="3" cols="20" class="text <?php if (isset($postLink)) { if (empty($postLink)) { echo 'error';} } ?>" id="pLink" name="link"><?php if (isset($postLink)) { echo $postLink;} ?></textarea>
         <input type="hidden" name="is_link" value="is_link">
-        <br>
+        <br />
         <?php endif;?>
-        
+
         <?php if ($type == 'is_post'):?>
         <input type="hidden" name="is_post" value="is_post">
         <?php endif;?>
+        <label for="wmd-input">Content</label>
         <div id="wmd-button-bar" class="wmd-button-bar"></div>
         <textarea id="wmd-input" class="wmd-input <?php if (isset($postContent)) { if (empty($postContent)) { echo 'error'; } } ?>" name="content" cols="20" rows="10"><?php if (isset($postContent)) { echo $postContent;} ?></textarea>
-        <br/>
+        <br />
         <input type="hidden" name="csrf_token" value="<?php echo get_csrf() ?>">
         <input type="submit" name="publish" class="submit" value="<?php echo i18n('Publish');?>"/> <input type="submit" name="draft" class="draft" value="<?php echo i18n('Save_as_draft');?>"/>
     </form>
