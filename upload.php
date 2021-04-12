@@ -12,7 +12,7 @@ if (config('timezone')) {
     date_default_timezone_set('Asia/Jakarta');
 }
 
-$whitelist = array('jpg', 'jpeg', 'png', 'gif');
+$whitelist = array('jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp', 'png', 'gif');
 $name      = null;
 $dir       = 'content/images/';
 $error     = null;
@@ -47,6 +47,7 @@ if (login()) {
         }
     }
 
+    header('Content-Type: application/json');
     echo json_encode(array(
         'path' => $path,
         'name'  => $name,

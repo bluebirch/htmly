@@ -29,7 +29,6 @@ if (file_exists($tagslang)) {
 <script type="text/javascript" src="<?php echo site_url() ?>system/admin/editor/js/Markdown.Editor.js"></script>
 <script type="text/javascript" src="<?php echo site_url() ?>system/admin/editor/js/Markdown.Extra.js"></script>
 <link rel="stylesheet" href="<?php echo site_url() ?>system/resources/css/jquery-ui.css">
-<script type="text/javascript" src="<?php echo site_url() ?>system/admin/editor/js/jquery.ajaxfileupload.js"></script>
 <script>
 $( function() {
     var availableTags = [
@@ -47,7 +46,7 @@ $( function() {
     $( "#pTag" )
       // don't navigate away from the field on tab when selecting an item
       .on( "keydown", function( event ) {
-        if ( event.keyCode === $.ui.keyCode.TAB &&
+        if ( event.keyCode === 9 && // 9 = tab
             $( this ).autocomplete( "instance" ).menu.active ) {
           event.preventDefault();
         }
@@ -101,7 +100,7 @@ $( function() {
 					<label for="pTag">Tag <span class="required">*</span></label>
 					<input type="text" class="form-control text <?php if (isset($postTag)) { if (empty($postTag)) { echo 'error';}} ?>" id="pTag" name="tag" value="<?php if (isset($postTag)) { echo $postTag; } ?>" placeholder="<?php echo i18n('Comma_separated_values');?>"/>
 					<br>
-					<label for="pMeta"><?php echo i18n('Meta_description');?> <?php echo i18n('optional');?></label>
+					<label for="pMeta"><?php echo i18n('Meta_description');?> (<?php echo i18n('optional');?>)</label>
 					<textarea id="pMeta" class="form-control" name="description" rows="3" cols="20" placeholder="<?php echo i18n('If_leave_empty_we_will_excerpt_it_from_the_content_below');?>"><?php if (isset($p->description)) { echo $p->description;} ?></textarea>
 					<br>
 				</div>
@@ -113,14 +112,14 @@ $( function() {
 					<br>
 					
 					<?php if ($type == 'is_audio'):?>
-					<label for="pAudio"><?php echo i18n('Featured_Audio');?> <span class="required">*</span> (SoundCloud <?php echo i18n('Only');?>)</label>
+					<label for="pAudio"><?php echo i18n('Featured_Audio');?> <span class="required">*</span> (e.g Soundcloud)</label>
 					<textarea rows="2" cols="20" class="form-control text <?php if (isset($postAudio)) { if (empty($postAudio)) { echo 'error';} } ?>" id="pAudio" name="audio"><?php if (isset($postAudio)) { echo $postAudio;} ?></textarea>
 					<input type="hidden" name="is_audio" value="is_audio">
 					<br>
 					<?php endif;?>
 
 					<?php if ($type == 'is_video'):?>
-					<label for="pVideo"><?php echo i18n('Featured_Video');?> <span class="required">*</span> (Youtube <?php echo i18n('Only');?>)</label>
+					<label for="pVideo"><?php echo i18n('Featured_Video');?> <span class="required">*</span> (e.g Youtube)</label>
 					<textarea rows="2" cols="20" class="form-control text <?php if (isset($postVideo)) { if (empty($postVideo)) { echo 'error';} } ?>" id="pVideo" name="video"><?php if (isset($postVideo)) { echo $postVideo;} ?></textarea>
 					<input type="hidden" name="is_video" value="is_video">
 					<br>
@@ -173,23 +172,36 @@ $( function() {
 	</div>
 
 	<style>
-	#insertImageDialog { display:none; padding: 10px; font-size:12px;}
 	.wmd-prompt-background {z-index:10!important;}
 	#wmd-preview img {max-width:100%;}
 	</style>
-
-	<div id="insertImageDialog" title="<?php echo i18n('Insert_Image');?>">
-		<label>URL</label>
-		<input type="text" size="48" placeholder="<?php echo i18n('Enter_image_URL');?>" />
-		
-		<hr>
-		
-		<form method="post" action="" enctype="multipart/form-data">
-			<label><?php echo i18n('Upload');?></label>
-			<input type="file" name="file" id="file" />
-		</form>
+	<div class="modal fade" id="insertImageDialog" tabindex="-1" role="dialog" aria-labelledby="insertImageDialogTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="insertImageDialogTitle"><?php echo i18n('Insert_Image');?></h5>
+					<button type="button" class="close" id="insertImageDialogClose" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="insertImageDialogURL">URL</label>
+						<input type="text" class="form-control" id="insertImageDialogURL" size="48" placeholder="<?php echo i18n('Enter_image_URL');?>" />
+					</div>
+					<hr>
+					<div class="form-group">
+						<label for="insertImageDialogFile"><?php echo i18n('Upload');?></label>
+						<input type="file" class="form-control-file" name="file" id="insertImageDialogFile" accept="image/png,image/jpeg,image/gif" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="insertImageDialogInsert"><?php echo i18n('Insert_Image');?></button>	
+					<button type="button" class="btn btn-secondary"  id="insertImageDialogCancel" data-dismiss="modal"><?php echo i18n('Cancel');?></button>
+				</div>
+			</div>
+		</div>
 	</div>
-
 </div>
 
 <!-- Declare the base path. Important -->
