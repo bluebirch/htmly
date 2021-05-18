@@ -223,6 +223,13 @@ if(from($_SERVER,'QUERY_STRING') == "rewriteRule.html")
     die();
 }
 
+$samesite = 'strict';
+if(PHP_VERSION_ID < 70300) {
+    session_set_cookie_params('samesite='.$samesite);	
+} else {
+    session_set_cookie_params(['samesite' => $samesite]);
+}
+
 session_start();
 new Settings;
 

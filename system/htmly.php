@@ -202,7 +202,12 @@ get('/author/:name', function ($name) {
 
     $posts = get_profile_posts($name, $page, $perpage);
 
-    $total = get_count($name, 'dirname');
+    $total = get_count('/'.$name.'/', 'dirname');
+    $username = 'config/users/' . $name . '.ini';
+
+    if ($total === 0 && !file_exists($username)) {
+        not_found();
+    }
 
     $author = get_author($name);
 
@@ -2246,13 +2251,10 @@ get('/post/:name', function ($name) {
         }
     }
 
-    $author = get_author($current->author);
-
-    if (isset($author[0])) {
-        $author = $author[0];
-    } else {
-        $author = default_profile($current->author);
-    }
+    $author = new stdClass;
+    $author->url = $current->authorUrl;
+    $author->name = $current->authorName;
+    $author->about = $current->authorAbout;
 
     if (array_key_exists('prev', $post)) {
         $prev = $post['prev'];
@@ -2648,6 +2650,7 @@ get('/:static', function ($static) {
         }
         die;
     } elseif ($static === 'login') {
+        if (session_status() == PHP_SESSION_NONE) session_start();
         config('views.root', 'system/admin/views');
         render('login', array(
             'title' => 'Login - ' . blog_title(),
@@ -3001,6 +3004,11 @@ get('/:static/:sub', function ($static, $sub) {
         $url = site_url() . 'search/' . remove_accent($search);
         header("Location: $url");
     }
+	
+    if ($static === 'front') {
+        $redir = site_url();
+        header("location: $redir", TRUE, 301);
+    }
 
     $father_post = get_static_post($static);
     if (!$father_post) {
@@ -3236,13 +3244,10 @@ get('/:year/:month/:name', function ($year, $month, $name) {
         }
     }
 
-    $author = get_author($current->author);
-
-    if (isset($author[0])) {
-        $author = $author[0];
-    } else {
-        $author = default_profile($current->author);
-    }
+    $author = new stdClass;
+    $author->url = $current->authorUrl;
+    $author->name = $current->authorName;
+    $author->about = $current->authorAbout;
 
     if (array_key_exists('prev', $post)) {
         $prev = $post['prev'];

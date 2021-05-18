@@ -288,6 +288,15 @@ function get_posts($posts, $page = 1, $perpage = 0)
         // The post author + author url
         $post->author = $author;
         $post->authorUrl = site_url() . 'author/' . $author;
+		
+        $profile = get_author($author);
+        if (isset($profile[0])) {
+            $post->authorName = $profile[0]->name;
+            $post->authorAbout = $profile[0]->about;
+        } else {
+            $post->authorName = $author;
+            $post->authorAbout = 'Just another HTMLy user';
+        }
 
         $post->type = $type;
 
@@ -375,6 +384,9 @@ function get_posts($posts, $page = 1, $perpage = 0)
         }
 
         $post->description = get_content_tag("d", $content, get_description($post->body));
+		
+        $word_count = str_word_count(strip_tags($post->body));
+        $post->readTime = ceil($word_count / 200);
 
         $tmp[] = $post;
     }
@@ -491,7 +503,6 @@ function get_category($category, $page, $perpage)
         // Replaced string
         $replaced = substr($arr[0], 0, strrpos($arr[0], '/')) . '/';
 
-        // Author string
         $str = explode('/', $replaced);
         $cat = $str[count($str) - 3];
 
@@ -501,7 +512,7 @@ function get_category($category, $page, $perpage)
     }
 
     if (empty($tmp)) {
-        not_found();
+        return false;
     }
 
     $tmp = array_unique($tmp, SORT_REGULAR);
@@ -637,7 +648,6 @@ function get_type($type, $page, $perpage)
         // Replaced string
         $replaced = substr($arr[0], 0, strrpos($arr[0], '/')) . '/';
 
-        // Author string
         $str = explode('/', $replaced);
         $tp = $str[count($str) - 2];
 
@@ -647,7 +657,7 @@ function get_type($type, $page, $perpage)
     }
 
     if (empty($tmp)) {
-        not_found();
+        return false;
     }
 
     $tmp = array_unique($tmp, SORT_REGULAR);
@@ -681,7 +691,7 @@ function get_tag($tag, $page, $perpage, $random)
     }
 
     if (empty($tmp)) {
-        not_found();
+        return false;
     }
 
     $tmp = array_unique($tmp, SORT_REGULAR);
@@ -704,7 +714,7 @@ function get_archive($req, $page, $perpage)
     }
 
     if (empty($tmp)) {
-        not_found();
+        return false;
     }
 
     return $tmp = get_posts($tmp, $page, $perpage);
@@ -726,7 +736,7 @@ function get_profile_posts($name, $page, $perpage)
     }
 
     if (empty($tmp)) {
-        return;
+        return false;
     }
 
     return $tmp = get_posts($tmp, $page, $perpage);
@@ -751,7 +761,7 @@ function get_draft($profile, $page, $perpage)
     }
 
     if (empty($tmp)) {
-        return;
+        return false;
     }
 
     return $tmp = get_posts($tmp, $page, $perpage);
@@ -801,7 +811,7 @@ function get_author($name)
     if (!empty($tmp) || file_exists($username)) {
         return $tmp;
     } else {
-        not_found();
+        return false;
     }
 }
 
@@ -856,6 +866,9 @@ function get_static_post($static)
                 }
 
                 $post->description = get_content_tag("d", $content, get_description($post->body));
+				
+                $word_count = str_word_count(strip_tags($post->body));
+                $post->readTime = ceil($word_count / 200);
 
                 $tmp[] = $post;
             }
@@ -900,6 +913,9 @@ function get_static_sub_post($static, $sub_static)
                 $post->views = get_views($post->file);
 
                 $post->description = get_content_tag("d", $content, get_description($post->body));
+				
+                $word_count = str_word_count(strip_tags($post->body));
+                $post->readTime = ceil($word_count / 200);
 
                 $tmp[] = $post;
             }
@@ -953,7 +969,7 @@ function get_keyword($keyword, $page, $perpage)
     }
 
     if (empty($tmp)) {
-        return $tmp;
+        return false;
     }
 
     return $tmp = get_posts($tmp, $page, $perpage);
@@ -1042,7 +1058,6 @@ function get_categorycount($var)
         // Replaced string
         $replaced = substr($arr[0], 0, strrpos($arr[0], '/')) . '/';
 
-        // Author string
         $str = explode('/', $replaced);
         $cat = '/blog/' . $str[count($str) - 3];
         if (stripos($cat, "$var") !== false) {
@@ -1070,7 +1085,6 @@ function get_typecount($var)
         // Replaced string
         $replaced = substr($arr[0], 0, strrpos($arr[0], '/')) . '/';
 
-        // Author string
         $str = explode('/', $replaced);
         $tp = '/' . $str[count($str) - 2] . '/';
         if (stripos($tp, "$var") !== false) {
@@ -1099,7 +1113,6 @@ function get_draftcount($var)
         // Replaced string
         $replaced = substr($arr[0], 0, strrpos($arr[0], '/')) . '/';
 
-        // Author string
         $str = explode('/', $replaced);
         $cat = $str[count($str) - 5];
 
@@ -1512,6 +1525,8 @@ function has_prev($prev)
             'tag' => $prev->tag,
             'category' => $prev->category,
             'author' => $prev->author,
+            'authorName' => $prev->authorName,
+            'authorAbout' => $prev->authorAbout,
             'authorUrl' => $prev->authorUrl,
             'related' => $prev->related,
             'views' => $prev->views,
@@ -1521,7 +1536,9 @@ function has_prev($prev)
             'video' => $prev->video,
             'audio' => $prev->audio,
             'quote' => $prev->quote,
-            'link' => $prev->link
+            'link' => $prev->link,
+            'categoryUrl' => $prev->categoryUrl,
+            'readTime' => $prev->readTime
         );
     }
 }
@@ -1540,6 +1557,8 @@ function has_next($next)
             'tag' => $next->tag,
             'category' => $next->category,
             'author' => $next->author,
+            'authorName' => $next->authorName,
+            'authorAbout' => $next->authorAbout,
             'authorUrl' => $next->authorUrl,
             'related' => $next->related,
             'views' => $next->views,
@@ -1549,7 +1568,9 @@ function has_next($next)
             'video' => $next->video,
             'audio' => $next->audio,
             'quote' => $next->quote,
-            'link' => $next->link
+            'link' => $next->link,
+            'categoryUrl' => $next->categoryUrl,
+            'readTime' => $next->readTime
         );
     }
 }
@@ -1865,12 +1886,12 @@ function social($imgDir = null)
 function copyright()
 {
     $blogcp = blog_copyright();
-    $credit = 'Proudly powered by <a href="http://www.htmly.com" target="_blank">HTMLy</a>';
+    $credit = 'Powered by <a href="http://www.htmly.com" target="_blank" rel="nofollow">HTMLy</a>';
 
     if (!empty($blogcp)) {
-        return $copyright = '<p>' . $blogcp . '</p><p>' . $credit . '</p>';
+        return $copyright = '<span class="copyright">' . $blogcp . '</span> <span class="credit">' . $credit . '</span>';
     } else {
-        return $credit = '<p>' . $credit . '</p>';
+        return $credit = '<span class="credit">' . $credit . '</span>';
     }
 }
 
@@ -1889,7 +1910,6 @@ function disqus($title = null, $url = null)
         var disqus_shortname = '{$disqus}';
         var disqus_title = '{$title}';
         var disqus_url = getAbsolutePath('{$url}');
-        var disqus_url = '{$url}';
         (function () {
             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
             dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
@@ -2063,7 +2083,7 @@ function parseNode($node, $child = null) {
         return $li;
     } else {
         
-        if (isset($url['host'])) {
+        if (isset($url['host']) && isset($su['host'])) {
             if ($url['host'] ==  $su['host']) {
                 if (slashUrl($url['path']) == slashUrl($req)) {
                     $li = '<li class="item nav-item dropdown active '.$node->class.'">';
